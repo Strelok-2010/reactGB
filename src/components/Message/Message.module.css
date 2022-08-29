@@ -1,19 +1,8 @@
 .message {
   font-size: 36px;
-  line-height: 200px;
+  line-height: 50px;
   color: blueviolet;
   width: 100%;
   text-align: center;
-}
-
-.textDynamic {
-  max-width: 50px auto;
-  min-width: 200px;
-  max-width: 400px;
-}
-
-* {
-  margin: 0;
-  padding: 0;
 }
 /*# sourceMappingURL=Message.module.css.map */
