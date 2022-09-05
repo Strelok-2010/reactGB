@@ -1,58 +1,27 @@
-import style from './Form.module.css';
-import { useState, useEffect } from 'react';
+import { useState } from "react";
+import style from "./Form.module.css";
+// import { AUTHOR } from "src/constants";
 
-export const Form = ({ arr, hendelChangeMessageList }) => {
-	const [author, setAuthor] = useState('');
-	const [text, setText] = useState('');
+export const Form = ({ addMessage }) => {
+  const [author, setAuthor] = useState("");
+  const [text, setText] = useState('');
 
-	const handleClick = () => {
-		if (author !== '' && text !== '') {
-			hendelChangeMessageList([
-				...arr,
-				{
-					text: text,
-					author: author,
-				},
-			]);
-		} else {
-			hendelChangeMessageList([
-				...arr,
-				{
-					text: "Введите текст",
-					author: "Имя не корректно",
-				},
-			]);
-		}
-	};
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    addMessage({
+      author: 'USER',//AUTHOR.user, 
+      text,
+    });
+    setText('');
+  }
 
-	const authorChange = (event) => {
-		setAuthor(event.target.value);
-	};
-
-	const textChange = (event) => {
-		setText(event.target.value);
-	};
-
-
-	return (
-		<div className={style.card}>
-			<p className={style.title}>Автор:</p>
-			<input
-				className={style.field}
-				type="text"
-				onChange={authorChange}
-				placeholder="Автор"
-			></input>
-			<p className={style.title}>Текст:</p>
-			<input
-				className={style.field}
-				type="text"
-				onChange={textChange}
-				placeholder="Статья"
-			></input>
-			<button className={style.btn} onClick={handleClick}>
-				Отправить
-			</button>
-		</div>
-	);
+  return (
+    <form className={style.card} onSubmit={handleSubmit}>
+      <h3 className={style.title}>Форма отправки</h3>
+      <input className={style.field} type="text" value={author} onChange={(event) => setAuthor(event.target.value)} placeholder="автор" disabled></input>
+      <input className={style.field} type="text" value={text} onChange={(event) => setText(event.target.value)} placeholder="текст"></input>
+      <button className={style.btn} disabled={!text}>Send</button>
+      {/* <Button label="send" disabled={!text} /> */}
+    </form>
+  );
 };
