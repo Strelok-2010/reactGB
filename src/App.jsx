@@ -1,30 +1,35 @@
-import { Message } from './components/Message/Message';
-import { useState } from 'react';
-import './index.css'
-import { Form } from './components/Form/Form';
+import { useState, useEffect } from 'react';
+import { Form } from './components/Form';
+import { MessageList } from './components/MessageList';
+import { AUTHOR } from 'src/constants';
 
 export const App = () => {
-	const [messageList, setMessageList] = useState([]);
+  const [messages, setMessages] = useState([]);
 
-	return (
-		<div className='container'>
-			<div className="App">
-				<Form arr={messageList} hendelChangeMessageList={setMessageList} />
-				<Message data={messageList.length} />
-				<div>
-					<p>
-						<h2>chat:</h2>
-					</p>
-					{messageList.map((message, index) => (
-						<div key={index}>
-							{' '}
-							{message.author}: {message.text}
-							{message.error}
-						</div>
-					))}
-				</div>
-			</div>
-		</div>
-	);
-}
+  const addMessage = (newMessage) => {
+    setMessages((prevMessage) => [...prevMessage, newMessage]);
+    console.log(messages)
+  }
 
+  useEffect(() => {
+    if (messages.length > 0 &&
+      messages[messages.length - 1].author === AUTHOR.user
+    ) {
+      const timeout = setTimeout(() => {
+        addMessage({
+          author: AUTHOR.bot,
+          text: 'Im Bot'
+        });
+      }, 1500)
+
+      return () => clearTimeout(timeout);
+    }
+  }, [messages])
+
+  return (
+    <div className="App">
+      <MessageList messages={messages} />
+      <Form addMessage={addMessage} />
+    </div>
+  );
+};
