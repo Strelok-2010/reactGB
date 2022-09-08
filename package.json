@@ -7,7 +7,7 @@
     "start": "webpack serve --mode=development",
     "build": "webpack --mode=production",
     "report": "npm run build --withReport true",
-    "lint": "npx eslint ./src --ext .js,.jsx --fix",
+    "lint": "npx tsc --noEmit && npx eslint ./src --ext .js,.jsx,.ts,.tsx --fix",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "test": "jest",
@@ -15,6 +15,9 @@
     "test:coverage": "jest --coverage --colors"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
+    "@mui/material": "^5.10.3",
     "eslint": "^8.23.0",
     "gh-pages": "^4.0.0",
     "react": "^18.2.0",
@@ -23,11 +26,15 @@
   },
   "devDependencies": {
     "@babel/core": "^7.18.13",
+    "@babel/plugin-transform-runtime": "^7.18.10",
     "@babel/preset-env": "^7.18.10",
     "@babel/preset-react": "^7.18.6",
+    "@babel/preset-typescript": "^7.18.6",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^14.4.3",
+    "@typescript-eslint/eslint-plugin": "^5.36.1",
+    "@typescript-eslint/parser": "^5.36.1",
     "babel-jest": "^29.0.1",
     "babel-loader": "^8.2.5",
     "css-loader": "^6.7.1",
@@ -46,8 +53,15 @@
     "sass": "^1.54.5",
     "sass-loader": "^13.0.2",
     "style-loader": "^3.3.1",
+    "typescript": "^4.8.2",
+    "typescript-plugin-css-modules": "^3.4.0",
     "webpack": "^5.74.0",
     "webpack-bundle-analyzer": "^4.6.1",
     "webpack-cli": "^4.10.0"
-  }
+  },
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "main": ".eslintrc.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
