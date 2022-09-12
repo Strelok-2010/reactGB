@@ -20,8 +20,10 @@
     "@mui/material": "^5.10.3",
     "eslint": "^8.23.0",
     "gh-pages": "^4.0.0",
+    "nanoid": "^3.3.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.3.0",
     "webpack-dev-server": "^4.6.0"
   },
   "devDependencies": {
@@ -58,10 +60,5 @@
     "webpack": "^5.74.0",
     "webpack-bundle-analyzer": "^4.6.1",
     "webpack-cli": "^4.10.0"
-  },
-  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
-  "main": ".eslintrc.js",
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  }
 }
