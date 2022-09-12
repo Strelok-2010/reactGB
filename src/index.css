@@ -5,8 +5,10 @@
 }
 
 .App {
+  outline: 1ps solid green;
   display: flex;
   flex-direction: column;
   gap: 20px;
   padding-top: 50px;
+  padding-left: 100px;
 }

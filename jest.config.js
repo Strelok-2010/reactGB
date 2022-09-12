@@ -84,8 +84,7 @@ module.exports = {
   moduleNameMapper: {
     '\\.(css|scss)$': 'identity-obj-proxy',
     '^src(.*)$': '<rootDir>/src$1',
-    // '^@/(.*)$': '<rootDir>/src/$1',
-    // "@(.*)$": "<rootDir>/src/$1",
+    '^nanoid$': require.resolve('nanoid'),
   },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader

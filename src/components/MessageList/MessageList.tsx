@@ -1,18 +1,26 @@
-import { FC, useEffect, useRef} from "react";
-import style from "./MessageList.module.css";
-import { Messages } from "src/types";
-import { Chat } from "./../Chat/Chat";
+import { FC, useEffect, useRef } from 'react';
+import style from './MessageList.module.css';
+import { Chat, Message } from 'src/types';
+import { ChatList } from 'src/components/ChatList';
 
 interface MessageListProps {
-  messages: Messages;
+  messages: Message[];
+  chats: Chat[];
+  onAddChat: (chat: Chat) => void;
+  removeChat: (id: string) => void;
 }
 
-export const MessageList: FC<MessageListProps> = ({ messages }) => {
+export const MessageList: FC<MessageListProps> = ({
+  messages,
+  chats,
+  onAddChat,
+  removeChat,
+}) => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (scrollRef.current != null) {
-      scrollRef.current.scrollIntoView({ behavior: "smooth" });
+      scrollRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   });
 
@@ -20,7 +28,11 @@ export const MessageList: FC<MessageListProps> = ({ messages }) => {
     <div className={style.wrapper}>
       <div className={style.box}>
         <div>
-          <Chat />
+          <ChatList
+            chats={chats}
+            onAddChat={onAddChat}
+            removeChat={removeChat}
+          />
         </div>
         <div className={style.box2}>
           <h3 className={style.title}>Сообщения</h3>

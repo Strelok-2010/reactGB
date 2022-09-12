@@ -1,0 +1,41 @@
+.wrapper {
+  height: 100%; 
+}
+
+.input {
+  width: 150px;
+  height: 25px;
+  color: darkblue;
+  padding: 0 5px;
+  margin-top: 10px;
+}
+
+.buttonCreate {
+  border: none;
+  background-color: #4b51ef;
+  border-radius: 5px;
+  padding: 5px 5px;
+  cursor: pointer;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  color: #ffffff;
+  width: 90px;
+  margin: 10px 0 0 10px ;
+  box-shadow: 0px 0px 0px 3px rgb(82 146 124 / 77%)
+}
+
+.buttonCreate:last-child {
+  background-color: red;
+}
+
+.message_scroll {
+  height: 50%;
+  padding: 5px 0px;
+  overflow: auto;
+}
+
+.title {
+  overflow: hidden;
+  white-space: nowrap;
+}
