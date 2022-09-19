@@ -1,6 +1,5 @@
 import { FC } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
-
 import style from './Header.module.css';
 
 const navigate = [
@@ -15,6 +14,10 @@ const navigate = [
   {
     name: 'Profile',
     path: '/profile',
+  },
+  {
+    name: 'About',
+    path: '/about',
   },
 ];
 
