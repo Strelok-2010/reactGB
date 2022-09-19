@@ -66,7 +66,7 @@ export const ChatList: FC<ChatListProps> = ({
             <ListSubheader
               sx={{
                 bgcolor: '#f3f3f3',
-                fontFamily: "'Courier New', Courier, monospace",
+                fontFamily: '"Courier New", Courier, monospace',
                 fontSize: '16px',
                 fontWeight: '600',
                 color: 'darkgreen',

@@ -3,9 +3,12 @@ import { Chat, Message, Messages } from 'src/types';
 import { Routes, Route } from 'react-router-dom';
 import { Main } from './pages/Main';
 import { Profile } from './pages/Profile';
+import { AboutWithConnect } from './pages/About';
 import { ChatPage } from './pages/ChatPage';
 import { Header } from './components/Header';
 import { ChatListPage } from './pages/ChatsPage';
+import { Provider } from 'react-redux';
+import { store } from './store';
 
 const defaultChats: Chat[] = [
   {
@@ -41,39 +44,46 @@ export const App: FC = () => {
 
   const removeChat = (id: string) => {
     setChats(chats.filter((el) => el.id !== id));
+    const newMessages = { ...messages };
+    delete newMessages[id];
+
+    setMessages(newMessages);
   };
 
   return (
-    <Routes>
-      <Route path="/" element={<Header />}>
-        <Route index element={<Main />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="chats">
-          <Route
-            index
-            element={
-              <ChatListPage
-                chats={chats}
-                onAddChat={onAddChat}
-                removeChat={removeChat}
-              />
-            }
-          />
-          <Route
-            path=":chatId"
-            element={
-              <ChatPage
-                chats={chats}
-                onAddChat={onAddChat}
-                messages={messages}
-                onAddMessage={onAddMessage}
-                removeChat={removeChat}
-              />
-            }
-          />
+    <Provider store={store}>
+      <Routes>
+        <Route path="/" element={<Header />}>
+          <Route index element={<Main />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/about" element={<AboutWithConnect />} />
+          <Route path="chats">
+            <Route
+              index
+              element={
+                <ChatListPage
+                  chats={chats}
+                  onAddChat={onAddChat}
+                  removeChat={removeChat}
+                />
+              }
+            />
+            <Route
+              path=":chatId"
+              element={
+                <ChatPage
+                  chats={chats}
+                  onAddChat={onAddChat}
+                  messages={messages}
+                  onAddMessage={onAddMessage}
+                  removeChat={removeChat}
+                />
+              }
+            />
+          </Route>
+          <Route path="*" element={<div>404 page</div>} />
         </Route>
-        <Route path="*" element={<div>404 page</div>} />
-      </Route>
-    </Routes>
+      </Routes>
+    </Provider>
   );
 };

@@ -1,7 +1,6 @@
 import { MessageList } from './MessageList';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { Chat } from 'src/types';
 
 describe('MessageList', () => {
   const arrMessages = [
@@ -17,12 +16,8 @@ describe('MessageList', () => {
       <MessageList
         messages={arrMessages}
         chats={[]}
-        onAddChat={function (chat: Chat): void {
-          throw new Error('Function not implemented.');
-        }}
-        removeChat={function (id: string): void {
-          throw new Error('Function not implemented.');
-        }}
+        onAddChat={jest.fn()}
+        removeChat={jest.fn()}
       />
     );
 
@@ -34,7 +29,8 @@ describe('MessageList', () => {
       <MessageList
         messages={[]}
         chats={[]}
-        onAddChat={function (chat: Chat): void {throw new Error('Function not implemented.');}} removeChat={function (id: string): void {throw new Error('Function not implemented.');}}
+        onAddChat={jest.fn()}
+        removeChat={jest.fn()}
       />
     );
     expect(screen.queryAllByRole('li').length).toBe(0);
@@ -55,12 +51,8 @@ describe('MessageList', () => {
       <MessageList
         messages={messages}
         chats={[]}
-        onAddChat={function (chat: Chat): void {
-          throw new Error('Function not implemented.');
-        }}
-        removeChat={function (id: string): void {
-          throw new Error('Function not implemented.');
-        }}
+        onAddChat={jest.fn()}
+        removeChat={jest.fn()}
       />
     );
     expect(screen.getAllByTestId('li').length).toBe(2);

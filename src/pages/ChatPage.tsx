@@ -22,14 +22,10 @@ export const ChatPage: FC<ChatPageProps> = ({
 }) => {
   const { chatId } = useParams();
 
-  if (chatId && !messages[chatId]) {
-    return <Navigate to="/chats" replace />;
-  }
-
   useEffect(() => {
     if (
       chatId &&
-      messages[chatId].length > 0 &&
+      messages[chatId]?.length > 0 &&
       messages[chatId][messages[chatId].length - 1].author === AUTHOR.user
     ) {
       const timeout = setTimeout(() => {
@@ -42,6 +38,10 @@ export const ChatPage: FC<ChatPageProps> = ({
       return () => clearTimeout(timeout);
     }
   }, [chatId, messages, onAddMessage]);
+
+  if (chatId && !messages[chatId]) {
+    return <Navigate to="/chats" replace />;
+  }
 
   return (
     <>
