@@ -1,0 +1,14 @@
+.box {
+  display: flex;
+  width: 420px;
+  height: 300px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.border {
+  outline: 3px solid #6ba180;
+  border-radius: 8px;
+  width: 422px;
+}
+

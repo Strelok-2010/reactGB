@@ -1,6 +1,9 @@
 import { MessageList } from './MessageList';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { Provider } from 'react-redux';
+import { store } from 'src/store';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('MessageList', () => {
   const arrMessages = [
@@ -10,28 +13,28 @@ describe('MessageList', () => {
     },
   ];
 
+  const string = 'string';
+
   it('render component MessageList', () => {
     window.HTMLElement.prototype.scrollIntoView = jest.fn();
     render(
-      <MessageList
-        messages={arrMessages}
-        chats={[]}
-        onAddChat={jest.fn()}
-        removeChat={jest.fn()}
-      />
+      <Provider store={store}>
+        <MemoryRouter>
+          <MessageList messages={arrMessages} title={string} />
+        </MemoryRouter>
+      </Provider>
     );
-
+    screen.debug();
     expect(screen.getByText(/USER : 111/)).toBeInTheDocument();
   });
 
   it('messages list is empty', () => {
     render(
-      <MessageList
-        messages={[]}
-        chats={[]}
-        onAddChat={jest.fn()}
-        removeChat={jest.fn()}
-      />
+      <Provider store={store}>
+        <MemoryRouter>
+          <MessageList messages={[]} title={string} />
+        </MemoryRouter>
+      </Provider>
     );
     expect(screen.queryAllByRole('li').length).toBe(0);
   });
@@ -48,15 +51,13 @@ describe('MessageList', () => {
       },
     ];
     render(
-      <MessageList
-        messages={messages}
-        chats={[]}
-        onAddChat={jest.fn()}
-        removeChat={jest.fn()}
-      />
+      <Provider store={store}>
+        <MemoryRouter>
+          <MessageList messages={messages} title={string} />
+        </MemoryRouter>
+      </Provider>
     );
     expect(screen.getAllByTestId('li').length).toBe(2);
     expect(screen.getAllByTestId('li')[0].innerHTML).toBe('USER : first');
-    screen.debug();
   });
 });
