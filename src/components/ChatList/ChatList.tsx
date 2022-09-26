@@ -1,48 +1,37 @@
-import React, { FC, useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import { ListItem, List, ListSubheader, ListItemButton } from '@mui/material';
-import { customAlphabet } from 'nanoid';
-import { Chat } from 'src/types';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { addChat, deleteChat } from 'src/store/messages/slice';
+import { selectChats } from 'src/store/messages/selectots';
 import style from './ChatList.module.css';
 
-const nanoid = customAlphabet('1234567890abcdef', 10);
+let chatName = '';
 
-interface ChatListProps {
-  chats: Chat[];
-  onAddChat: (chat: Chat) => void;
-  removeChat: (id: string) => void;
-}
-
-let btnID = '';
-let nameChat = '';
-
-export const ChatList: FC<ChatListProps> = ({
-  chats,
-  onAddChat,
-  removeChat,
-}) => {
+export const ChatList: FC = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [value, setValue] = useState('');
+  const dispatch = useDispatch();
+  const chats = useSelector(
+    selectChats,
+    (prev, next) => prev.length === next.length //shallowEqual
+  );
+
+  useEffect(() => {
+    console.log('chats updated');
+  }, [chats]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (value) {
-      onAddChat({
-        id: nanoid(),
-        name: value,
-      });
+      dispatch(addChat(value));
       setValue('');
     }
   };
 
-  const handelButtonRemove = (id: string) => {
-    removeChat(id);
-    nameChat = '';
-  };
-
-  const handelButtonChat = (id: string, name: string) => {
-    btnID = id;
-    nameChat = name;
+  const onRemoveChat = () => {
+    dispatch(deleteChat(chatName));
+    chatName = '';
   };
 
   useEffect(() => {
@@ -74,9 +63,9 @@ export const ChatList: FC<ChatListProps> = ({
               }}
             >
               <div className={style.title}>
-                Чат:{' '}
+                Чат:
                 <span style={{ fontSize: '12px', color: 'red' }}>
-                  {nameChat}
+                  {chatName}
                 </span>
               </div>
             </ListSubheader>
@@ -87,10 +76,8 @@ export const ChatList: FC<ChatListProps> = ({
               <ListItemButton key={chat.id} sx={{ padding: 0 }}>
                 <ListItem sx={{ paddingTop: 0, paddingBottom: 0 }}>
                   <Link
-                    to={`/chats/${chat.id}`}
-                    onClick={() => {
-                      handelButtonChat(chat.id, chat.name);
-                    }}
+                    to={`/chats/${chat.name}`}
+                    onClick={() => (chatName = chat.name)}
                   >
                     {chat.name}
                   </Link>
@@ -109,7 +96,7 @@ export const ChatList: FC<ChatListProps> = ({
             <button className={style.buttonCreate}>create chat</button>
             <button
               className={style.buttonCreate}
-              onClick={() => handelButtonRemove(btnID)}
+              onClick={() => onRemoveChat()}
               type="button"
             >
               remove chat

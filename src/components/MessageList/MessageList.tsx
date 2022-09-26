@@ -1,21 +1,13 @@
 import { FC, useEffect, useRef } from 'react';
 import style from './MessageList.module.css';
-import { Chat, Message } from 'src/types';
-import { ChatList } from 'src/components/ChatList';
+import { Message } from 'src/types';
 
 interface MessageListProps {
   messages: Message[];
-  chats: Chat[];
-  onAddChat: (chat: Chat) => void;
-  removeChat: (id: string) => void;
+  title: string;
 }
 
-export const MessageList: FC<MessageListProps> = ({
-  messages,
-  chats,
-  onAddChat,
-  removeChat,
-}) => {
+export const MessageList: FC<MessageListProps> = ({ messages, title }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -25,28 +17,17 @@ export const MessageList: FC<MessageListProps> = ({
   });
 
   return (
-    <div className={style.wrapper}>
-      <div className={style.box}>
-        <div>
-          <ChatList
-            chats={chats}
-            onAddChat={onAddChat}
-            removeChat={removeChat}
-          />
-        </div>
-        <div className={style.box2}>
-          <h3 className={style.title}>Сообщения</h3>
-          <div className={style.message_scroll}>
-            <ul className={style.list}>
-              {messages.map((message, idx) => (
-                <li key={idx} data-testid="li">
-                  {message.author} : {message.text}
-                </li>
-              ))}
-            </ul>
-            <div ref={scrollRef} />
-          </div>
-        </div>
+    <div className={style.box2}>
+      <h3 className={style.title}>{title} </h3>
+      <div className={style.message_scroll}>
+        <ul className={style.list}>
+          {messages.map((message, idx) => (
+            <li key={idx} data-testid="li">
+              {message.author} : {message.text}
+            </li>
+          ))}
+        </ul>
+        <div ref={scrollRef} />
       </div>
     </div>
   );

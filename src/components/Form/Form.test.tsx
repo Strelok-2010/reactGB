@@ -1,14 +1,17 @@
 import { Form } from './Form';
+import { Provider } from 'react-redux';
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
+import { store } from 'src/store';
 
 describe('Form', () => {
-  let addMessage: jest.Mock<any, any>;
-
   beforeEach(() => {
-    addMessage = jest.fn();
-    render(<Form addMessage={addMessage} />);
+    render(
+      <Provider store={store}>
+        <Form />
+      </Provider>
+    );
   });
 
   it('input change with fireevent', () => {
@@ -16,7 +19,6 @@ describe('Form', () => {
 
     fireEvent.change(inputEl, { target: { value: 'new value' } });
     expect(inputEl.value).toBe('new value');
-    screen.debug();
   });
 
   it('input change with userevent', async () => {
@@ -29,7 +31,7 @@ describe('Form', () => {
   it('activation of the button when the text is entered', () => {
     const value = '23';
     const inputEl = screen.getByTestId<HTMLInputElement>('input');
-    const inputBtn = screen.getByRole('button');
+    const inputBtn = screen.getByTestId('button');
     fireEvent.change(inputEl, { target: { value: value } });
 
     expect(inputBtn).toBeEnabled();
