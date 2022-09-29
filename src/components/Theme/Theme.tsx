@@ -5,8 +5,6 @@ import style from './Theme.module.css';
 export const Theme: FC = () => {
   const { theme, toggleTheme } = useContext(ThemeContext);
 
-  console.log(theme);
-
   return (
     <div className={style.wrapper}>
       <p>theme: {theme === 'light' ? '🌞' : '🌙'}</p>

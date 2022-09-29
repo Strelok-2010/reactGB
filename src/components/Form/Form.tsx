@@ -1,16 +1,14 @@
 import * as React from 'react';
 import { FC, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import { AUTHOR } from 'src/types';
 import { Theme } from '../Theme/Theme';
-import { addMessagesWithReply } from 'src/store/messages/slice';
 import style from './Form.module.css';
-import { StoreState } from 'src/store';
-import { ThunkDispatch } from 'redux-thunk';
+import { push, ref } from 'firebase/database';
+import { db } from 'src/services/firebase';
 
 const MyButton = styled(Button)({
   width: 80,
@@ -20,17 +18,15 @@ export const Form: FC = () => {
   const [author, setAuthor] = useState('');
   const [text, setText] = useState('');
   const { chatId } = useParams();
-  const dispatch = useDispatch<ThunkDispatch<StoreState, void, any>>();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     if (chatId) {
-      dispatch(
-        addMessagesWithReply({
-          chatName: chatId,
-          message: { author: AUTHOR.USER, text },
-        })
-      );
+      push(ref(db, `messages/${chatId}/messages`), {
+        author: AUTHOR.USER,
+        text,
+      });
     }
     setText('');
   };

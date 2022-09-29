@@ -1,31 +1,26 @@
 import { FC } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { Form } from 'src/components/Form';
 import { MessageList } from 'src/components/MessageList';
-import { selectMasseges } from 'src/store/messages/selectots';
-import { WithClasses } from 'src/HOC/WithClasses';
 import style from './ChatPage.module.css';
 import { ChatList } from 'src/components/ChatList';
 
-export const ChatPage: FC = () => {
+export const ChatPage: FC<any> = ({ chats, messages }) => {
   const { chatId } = useParams();
-  const messages = useSelector(selectMasseges);
-
-  const MessageListWithClass = WithClasses(MessageList);
 
   if (chatId && !messages[chatId]) {
     return <Navigate to="/chats" replace />;
   }
 
+  const prepareMessages = [
+    ...Object.values((chatId && messages[chatId].messages) || {}),
+  ];
+
   return (
     <div className="App">
       <div className={style.box}>
-        <ChatList />
-        <MessageListWithClass
-          messages={chatId ? messages[chatId] : []}
-          title={'Сообщения'}
-        />
+        <ChatList chats={chats} />
+        <MessageList messages={prepareMessages} title={'Сообщения'} />
       </div>
       <Form />
     </div>

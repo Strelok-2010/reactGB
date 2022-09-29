@@ -12,13 +12,10 @@ const profileSlice = createSlice({
   initialState,
   reducers: {
     toggleProfile: (state) => {
-      console.log(state);
       state.visible = !state.visible;
     },
     changeName: (state, action: PayloadAction<string>) => {
       state.name = action.payload;
-      console.log(state);
-      console.log(action);
     },
     auth: (state, action: PayloadAction<boolean>) => {
       state.isAuth = action.payload;

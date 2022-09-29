@@ -1,8 +1,8 @@
 import { FC } from 'react';
 import { ChatList } from 'src/components/ChatList';
 
-export const ChatListPage: FC = () => (
+export const ChatListPage: FC<any> = ({ chats }) => (
   <div className="App">
-    <ChatList />
+    <ChatList chats={chats} />
   </div>
 );
