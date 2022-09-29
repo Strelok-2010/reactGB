@@ -1,26 +1,34 @@
+import { CircularProgress } from '@mui/material';
 import React, { FC, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { auth } from 'src/store/profile/slice';
+import { logIn } from 'src/services/firebase';
 import style from './Sign.module.css';
 
 export const SignIn: FC = () => {
   const [login, setLogin] = useState('');
   const [passowrd, setPassword] = useState('');
-  const [error, setError] = useState(false);
-  const dispatch = useDispatch();
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError(false);
 
-    if (login === 'gb' && passowrd === 'gb') {
-      dispatch(auth(true));
-      // navigate('/chats', {replace: true});
-      navigate(-1);
-    } else {
-      setError(true);
+    setError('');
+    setLoading(true);
+
+    try {
+      await logIn(login, passowrd);
+      navigate('/chats');
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('error');
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -30,7 +38,7 @@ export const SignIn: FC = () => {
       <form onSubmit={handleSubmit} className={style.form}>
         <p>Login</p>
         <input
-          type="text"
+          type="email"
           onChange={(e) => setLogin(e.target.value)}
           value={login}
           data-testid="login"
@@ -45,7 +53,8 @@ export const SignIn: FC = () => {
         <br />
         <button data-testid="btn-login">Login</button>
       </form>
-      {error && <p style={{ color: 'red' }}>Логин или пароль не верны</p>}
+      {loading && <CircularProgress />}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
     </div>
   );
 };

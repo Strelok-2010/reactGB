@@ -12,13 +12,13 @@ export const ArticlesThunk: FC = () => {
 
   const fetchDispatch = useDispatch<ThunkDispatch<StoreState, void, any>>();
 
-  useEffect(() => {
-    handleFeatchData();
-  }, []);
-
   const handleFeatchData = () => {
     fetchDispatch(fetchData());
   };
+
+  useEffect(() => {
+    handleFeatchData();
+  }, []);
 
   return (
     <>

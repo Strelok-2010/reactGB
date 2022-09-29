@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { logOut } from 'src/services/firebase';
 import { StoreState } from 'src/store';
 import { auth } from 'src/store/profile/slice';
 import style from './Header.module.css';
@@ -34,16 +35,17 @@ const nav = [
 
 export const Header: FC = () => {
   const isAuth = useSelector((state: StoreState) => state.profile.isAuth);
-  const dispansh = useDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    dispansh(auth(false));
-    // navigate('/signin')
-  };
-
-  const handleLogin = () => {
-    navigate('/signin');
+  const handleLogout = async () => {
+    try {
+      await logOut();
+    } catch (err) {
+      console.log(err);
+    } finally {
+      dispatch(auth(false));
+    }
   };
 
   return (
@@ -74,12 +76,20 @@ export const Header: FC = () => {
           </button>
         )}
         {!isAuth && (
-          <button
-            onClick={handleLogin}
-            className={`${style.btnLog} ${style.btnLogIn}`}
-          >
-            LogIn
-          </button>
+          <>
+            <button
+              onClick={() => navigate('/signin')}
+              className={`${style.btnLog} ${style.btnLogIn}`}
+            >
+              singIn
+            </button>
+            <button
+              onClick={() => navigate('/signup')}
+              className={`${style.btnLog} ${style.btnLogIn}`}
+            >
+              singUp
+            </button>
+          </>
         )}
         <Outlet />
       </main>
